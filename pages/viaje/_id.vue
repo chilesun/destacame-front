@@ -31,22 +31,6 @@
             v-model="trip.bus"
             ></v-select>
         </div>
-        <div class="field driver">
-          <label class="label">Chofer</label>
-          <v-select
-            :options="drivers" 
-            label="run"
-            :reduce="(driver) => driver.id"
-            v-model="trip.driver"
-            >
-              <template #option="{ name, last_name, run, check_digit }">
-                {{ name }} {{ last_name }} | {{ $formatRun(run) }}-{{ check_digit }}  
-              </template>
-              <template #selected-option="{ name, last_name, run, check_digit  }">
-                {{ name }} {{ last_name }} | {{ $formatRun(run) }}-{{ check_digit }} 
-              </template>
-            </v-select>
-        </div>
       </div>
       <div class="submit">
         <button class="button add" @click.prevent="putTrip()">Editar Viaje</button>
@@ -61,11 +45,9 @@ export default {
 		trip: {
     },
 		journeys: [],
-		drivers: [],
 		bus: []
 	}),
 	async fetch() {
-		this.drivers = await this.$http.$get('driver');
 		this.journeys = await this.$http.$get('journey');
 		this.bus = await this.$http.$get('bus');
 		this.trip = await this.$http.$get('trip/' + this.$route.params.id);

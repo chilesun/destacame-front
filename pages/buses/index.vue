@@ -10,9 +10,25 @@
 				<div class="form-container">
 					<form action="">
 						<h3>Nuevo Bus</h3>
-						<div class="field run">
+						<div class="field number_plate">
 							<label class="label" for="name">Patente</label>
 							<input class="input" v-model="currentBus.number_plate"   />
+						</div>
+						<div class="field driver">
+							<label class="label">Chofer</label>
+							<v-select
+								:options="drivers" 
+								label="run"
+								:reduce="(driver) => driver.id"
+								v-model="currentBus.driver"
+								>
+									<template #option="{ name, last_name, run, check_digit }">
+										{{ name }} {{ last_name }} | {{ $formatRun(run) }}-{{ check_digit }}  
+									</template>
+									<template #selected-option="{ name, last_name, run, check_digit  }">
+										{{ name }} {{ last_name }} | {{ $formatRun(run) }}-{{ check_digit }} 
+									</template>
+								</v-select>
 						</div>
 						<div class="selection-options">
 							<button v-if="!putMode" class="button add" @click.prevent="postBus()">Añadir</button>
@@ -25,12 +41,16 @@
 					<table>
 						<tr>
 							<th>Patente</th>
+							<th>Chofer</th>
 							<th>Capacidad</th>
 							<th>Opciones</th>
 						</tr>
 						<tr v-for="bus in buss" :key="bus.id">
 							<td class="column number_plate">
 								{{ bus.number_plate }}
+							</td>
+							<td class="column number_plate">
+									{{ $getData(drivers, bus.driver, "name") }} {{ $getData(drivers, bus.driver, "last_name") }}
 							</td>
 							<td class="column capacity">
 								{{ bus.seats }}
@@ -58,11 +78,14 @@ export default {
 		buss: [],
 		currentBus: {
 			number_plate: null,
+			driver: null
 		},
+		drivers: [],
 		putMode: false
 	}),
 	async fetch() {
 		this.buss = await this.$http.$get('bus');
+		this.drivers = await this.$http.$get('driver');
 	},
 	methods: {
 		cancelEdit: function() {
@@ -71,7 +94,8 @@ export default {
 		},
 		cleanBus: function() {
 			this.currentBus = {
-				number_plate: null
+				number_plate: null,
+				driver: null
 			}
 		},
 		updateBus: function(bus) {
@@ -79,22 +103,38 @@ export default {
 			this.putMode = true
 		},
 		getBus: async function () {
-			this.buss = await this.$http.$get('bus');
+			try {
+				this.buss = await this.$http.$get('bus');
+			} catch (err) {
+				console.log(err.response.data)
+			}
 		},
 		postBus: async function () {
-			const data = await this.$http.$post('bus/', this.currentBus );
-			this.cleanBus()
-			this.getBus();
+			try {
+				const data = await this.$http.$post('bus/', this.currentBus )
+				this.cleanBus()
+				this.getBus();
+			} catch (err) {
+				console.log(err.response.data)
+			}
 		},
 		putBus: async function () {
-			const data = await this.$http.$put('bus/' + this.currentBus.id + '/' , this.currentBus);
-			this.getBus();
-			this.cleanBus();
-			this.putMode = false
+			try {
+				const data = await this.$http.$put('bus/' + this.currentBus.id + '/' , this.currentBus);
+				this.getBus();
+				this.cleanBus();
+				this.putMode = false
+			} catch (err) {
+				console.log(err.response.data)
+			}
 		},
 		deleteBus: async function (id) {
-			await this.$http.delete('bus/' + id);
-			this.getBus();
+			try {
+				await this.$http.delete('bus/' + id);
+				this.getBus();
+			} catch (err) {
+				console.log(err.response.data)
+			}
 		}
 	},
 };

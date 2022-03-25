@@ -99,19 +99,31 @@ export default {
 			this.passengers = await this.$http.$get('passenger');
 		},
 		postPassenger: async function () {
-			const data = await this.$http.$post('passenger/', this.currentPassenger );
-			this.cleanPassenger()
-			this.getPassengers()
+			try {
+				const data = await this.$http.$post('passenger/', this.currentPassenger );
+				this.cleanPassenger()
+				this.getPassengers()
+			} catch (err) {
+				console.log(err.response.data)
+			}
 		},
 		putPassenger: async function () {
-			const data = await this.$http.$put('passenger/' + this.currentPassenger.id + '/' , this.currentPassenger);
-			this.getPassengers()
-			this.cleanPassenger()
-			this.putMode = false
+			try {
+				const data = await this.$http.$put('passenger/' + this.currentPassenger.id + '/' , this.currentPassenger);
+				this.getPassengers()
+				this.cleanPassenger()
+				this.putMode = false
+			} catch (err) {
+				console.log(err.response.data)
+			}
 		},
 		deletePassenger: async function (id) {
-			await this.$http.delete('passenger/' + id);
-			this.getPassengers();
+			try {
+				await this.$http.delete('passenger/' + id);
+				this.getPassengers();
+			} catch (err) {
+				console.log(err.response.data)
+			}
 		}
 	},
 };

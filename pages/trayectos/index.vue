@@ -110,26 +110,42 @@ export default {
 			this.putMode = true
 		},
 		getJourneys: async function () {
-			this.journeys = await this.$http.$get('journey');
+			try {
+				this.journeys = await this.$http.$get('journey')
+			} catch (err) {
+				console.log(err.response.data)
+			}
 		},
 		postJourney: async function () {
-			if (this.currentJourney.origin !== this.currentJourney.destination) {
-				const data = await this.$http.$post('journey/', this.currentJourney );
-				this.cleanJourney()
-				this.getJourneys();
+			try {
+				if (this.currentJourney.origin !== this.currentJourney.destination) {
+					const data = await this.$http.$post('journey/', this.currentJourney );
+					this.cleanJourney()
+					this.getJourneys();
+				}
+			} catch (err) {
+				console.log(err.response.data)
 			}
 		},
 		putJourney: async function () {
-			if (this.currentJourney.origin !== this.currentJourney.destination) {
-				const data = await this.$http.$put('journey/' + this.currentJourney.id + '/' , this.currentJourney);
-				this.cleanJourney()
-				this.getJourneys();
-				this.putMode = false
+			try {
+				if (this.currentJourney.origin !== this.currentJourney.destination) {
+					const data = await this.$http.$put('journey/' + this.currentJourney.id + '/' , this.currentJourney);
+					this.cleanJourney()
+					this.getJourneys();
+					this.putMode = false
+				}
+			} catch (err) {
+				console.log(err.response.data)
 			}
 		},
 		deleteJourney: async function (id) {
-			await this.$http.delete('journey/' + id);
-			this.getJourneys();
+			try {
+				await this.$http.delete('journey/' + id)
+				this.getJourneys();
+			} catch (err) {
+				console.log(err.response.data)
+			}
 		}
 	},
 };

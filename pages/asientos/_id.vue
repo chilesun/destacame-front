@@ -117,32 +117,52 @@ export default {
       }
     },
     getSeats: async function() {
-      this.seats = await this.$http.$get('seat/?trip=' + this.trip.id)
+			try {
+        this.seats = await this.$http.$get('seat/?trip=' + this.trip.id)
+			} catch (err) {
+				console.log(err.response.data)
+      }
     },
     putSeat: async function (id) {
-      await this.$http.$put('seat/' + id + '/', this.selectedSeat)
+			try {
+        await this.$http.$put('seat/' + id + '/', this.selectedSeat)
+			} catch (err) {
+				console.log(err.response.data)
+      }
     },
     checkPassenger: async function(run) {
-      let isPassanger = await this.$http.$get('passenger/?run=' + run)
-      return isPassanger
+			try {
+        let isPassanger = await this.$http.$get('passenger/?run=' + run)
+        return isPassanger
+			} catch (err) {
+				console.log(err.response.data)
+      }
     },
     getPassenger: async function(run) {
-      if (this.selectedSeat.passenger !== null) {
-        this.passenger = await this.$http.$get('passenger/' + this.selectedSeat.passenger)
-      } else {
-        this.passengerCheck = await this.checkPassenger(this.passenger.run)
-        if (this.passengerCheck.length > 0) {
-          this.passenger = this.passengerCheck[0]
+			try {
+        if (this.selectedSeat.passenger !== null) {
+          this.passenger = await this.$http.$get('passenger/' + this.selectedSeat.passenger)
         } else {
-          this.passenger.id = null
-          this.passenger.name = null
-          this.passenger.last_name = null
+          this.passengerCheck = await this.checkPassenger(this.passenger.run)
+          if (this.passengerCheck.length > 0) {
+            this.passenger = this.passengerCheck[0]
+          } else {
+            this.passenger.id = null
+            this.passenger.name = null
+            this.passenger.last_name = null
+          }
         }
+			} catch (err) {
+				console.log(err.response.data)
       }
     },
     postPassenger: async function() {
-      const data = await this.$http.$post('passenger/', this.passenger)
-      this.latestPassenger = data.id
+			try {
+        const data = await this.$http.$post('passenger/', this.passenger)
+        this.latestPassenger = data.id
+			} catch (err) {
+				console.log(err.response.data)
+      }
     }
   }
 };

@@ -42,7 +42,7 @@
 								{{ $getData(bus, trip.bus, "number_plate") }}
 							</td>
 							<td class="column driver">
-								{{ $getData(drivers, trip.driver, "name") }} {{ $getData(drivers, trip.driver, "last_name") }}
+								{{ $getData(drivers, ($getData(bus, trip.bus, "driver")), "name") }} {{ $getData(drivers, ($getData(bus, trip.bus, "driver")), "last_name") }}
 							</td>
 							<td class="column capacity">
 								{{ parseInt(trip.capacity) }}%
@@ -99,11 +99,19 @@ export default {
 	},
 	methods: {
 		deleteTrip: async function(id) {
-			await this.$http.delete('trip/' + id)
-			this.getTrips()
+			try {
+				await this.$http.delete('trip/' + id)
+				this.getTrips()
+			} catch (err) {
+				console.log(err.response.data)
+			}
 		},
 		getTrips: async function() {
-			this.trips = await this.$http.$get('trip');
+			try {
+				this.trips = await this.$http.$get('trip');
+			} catch (err) {
+				console.log(err.response.data)
+			}
 		}
 	}
 };

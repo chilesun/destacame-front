@@ -96,22 +96,39 @@ export default {
 			this.putMode = true
 		},
 		getDrivers: async function () {
-			this.drivers = await this.$http.$get('driver');
+			try {
+				this.drivers = await this.$http.$get('driver');
+
+			} catch (err) {
+				console.log(err.response.data)
+			}
 		},
 		postDriver: async function () {
-			const data = await this.$http.$post('driver/', this.currentDriver );
-			this.cleanDriver()
-			this.getDrivers()
+			try {
+				const data = await this.$http.$post('driver/', this.currentDriver );
+				this.cleanDriver()
+				this.getDrivers()
+			} catch (err) {
+				console.log(err.response.data)
+			}
 		},
 		putDriver: async function () {
-			const data = await this.$http.$put('driver/' + this.currentDriver.id + '/' , this.currentDriver);
-			this.cleanDriver()
-			this.getDrivers()
-			this.putMode = false
+			try {
+				const data = await this.$http.$put('driver/' + this.currentDriver.id + '/' , this.currentDriver);
+				this.cleanDriver()
+				this.getDrivers()
+				this.putMode = false
+			} catch (err) {
+				console.log(err.response.data)
+			}
 		},
 		deleteDriver: async function (id) {
-			await this.$http.delete('driver/' + id);
-			this.getDrivers()
+			try {
+				await this.$http.delete('driver/' + id);
+				this.getDrivers()
+			} catch (err) {
+				console.log(err.response.data)
+			}
 		}
 	},
 };
