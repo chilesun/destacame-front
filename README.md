@@ -16,7 +16,7 @@ $ cd destacame-front
 $ npm install
 ```
 
-## Paso 3: Correr entorno dev
+## Paso 3: Correr entorno dev (correr desde http://localhost:3000 para no enfrentarse a CORS)
 
 ```bash
 $ npm run dev
