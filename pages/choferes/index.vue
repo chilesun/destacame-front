@@ -12,16 +12,16 @@
 						<h3>Nuevo Pasajero</h3>
 						<div class="field run">
 							<label class="label" for="name">RUN</label>
-							<input class="input" v-model="currentDriver.run" name="run" type="number" max="99999999" min="9999999" required  />
+							<input class="input" v-model="currentDriver.run" name="run" type="number" max="99999999" required  />
 							<span class="help">Sin puntos, guión ni dígito verificador</span>
 						</div>
 						<div class="field run">
 							<label class="label" for="name">Nombre</label>
-							<input class="input" v-model="currentDriver.name"  name="name" type="text">
+							<input class="input" v-model="currentDriver.name"  name="name" type="text" maxlength="40">
 						</div>
 						<div class="field run">
 							<label class="label" for="last_name">Apellido</label>
-							<input class="input" v-model="currentDriver.last_name"  name="last_name" type="text">
+							<input class="input" v-model="currentDriver.last_name"  name="last_name" type="text" maxlength="40">
 						</div>
 						<div class="selection-options">
 							<button v-if="!putMode" class="button add" @click.prevent="postDriver()">Añadir</button>

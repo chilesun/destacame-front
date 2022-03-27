@@ -112,7 +112,7 @@ export default {
         await this.putSeat(this.selectedSeat.id)
         Object.keys(this.passenger).forEach(key => {
           this.passenger[key] = null;
-        });
+        })
         this.getSeats()
       }
     },
@@ -138,7 +138,7 @@ export default {
 				console.log(err.response.data)
       }
     },
-    getPassenger: async function(run) {
+    getPassenger: async function() {
 			try {
         if (this.selectedSeat.passenger !== null) {
           this.passenger = await this.$http.$get('passenger/' + this.selectedSeat.passenger)

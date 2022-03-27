@@ -6,12 +6,15 @@
 		<div v-else class="the-trips">
 			<div class="trip">
 				<div class="filters">
-					Mostrar viajes con capacidad vendida igual o superiora:
-          <v-select
-            :options="options"
-						v-model="capacity"
-            >
-            </v-select><span class="span">%</span>
+					<div class="filter-title"></div>
+					<div class="filter filter-capacity">
+						Filtrar por Capacidad
+          	<v-select
+          	  :options="options"
+							v-model="capacity"
+          	  >
+          	  </v-select><span class="span">%</span>
+					</div>
 				</div>
 				<div class="table-container">
 					<table>
@@ -45,7 +48,7 @@
 								{{ $getData(drivers, ($getData(bus, trip.bus, "driver")), "name") }} {{ $getData(drivers, ($getData(bus, trip.bus, "driver")), "last_name") }}
 							</td>
 							<td class="column capacity">
-								{{ parseInt(trip.capacity) }}%
+								{{ trip.capacity }}%
 							</td>
 							<td class="column options">
 								<NuxtLink :to="'/asientos/' + trip.id ">
@@ -76,9 +79,10 @@ export default {
 		drivers: [],
 		bus: [],
 		options: [
-			10, 20, 30, 40, 50, 60, 70, 80, 90
+			10, 20, 30, 40, 50, 60, 70, 80, 90, 100
 		],
-		capacity: null
+		capacity: null,
+		journey: null
 	}),
 	async fetch() {
 		this.drivers = await this.$http.$get('driver');
@@ -87,8 +91,9 @@ export default {
 		this.bus = await this.$http.$get('bus');
 	},
 	watch: {
-		capacity: function(val) {
+		capacity: async function(val) {
 			if (val !== null) {
+				await this.getTrips()
 				this.trips = this.trips.filter(obj => {
 					return obj.capacity >= val
 				})
@@ -129,19 +134,41 @@ export default {
 			margin-bottom: 0px
 			flex-wrap: wrap
 			.filters
-				margin: 0 auto 20px
-				width: 420px
 				display: flex
-				align-items: center
-				.v-select
-					width: 155px
-					margin-right: 15px
-				.span
-					font-family: 'Montserrat'
+				flex-wrap: wrap
+				justify-content: center
+				width: 100%
+				margin-bottom: 15px
+				.filter-title
+					width: 100%
+					margin-bottom: 10px
+					text-align: center
+				.filter
+					display: flex
+					align-items: center
+					padding-left: 15px
+					padding-right: 15px
+					.span
+						font-family: 'Montserrat'
+				.filter-capacity
+					.v-select
+						margin-left: 20px
+						margin-right: 15px
+					.vs__dropdown-toggle
+						width: 155px
+				.filter-journey
+					.v-select
+						width: 250px
+					.vs__dropdown-toggle
+						width: 250px
 			.table-container
 				width: 100%
 				table
 					width: 100%
+			@media screen and (min-width: 1400px)
+				.table-container
+					height: 70vh
+					overflow-y: scroll
 			@media screen and (max-width: 1400px)	
 				.table-container
 					overflow-x: auto
