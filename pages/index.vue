@@ -106,7 +106,7 @@ export default {
 	},
 	watch: {
 		capacity: async function(val) {
-			if (val == null) {
+			if (this.capacity == null) {
 				this.capacity = ''
 			}
 			if (this.journey == null) {
@@ -116,7 +116,7 @@ export default {
 
 		},
 		journey: async function(val) {
-			if (val == null) {
+			if (this.journey == null) {
 				this.journey = ''
 			}
 			if (this.capacity == null) {
@@ -126,9 +126,6 @@ export default {
 		}
 	},
 	methods: {
-		filterTrips: async function() {
-			;
-		},
 		deleteTrip: async function(id) {
 			try {
 				await this.$http.delete('trip/' + id)
