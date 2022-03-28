@@ -6,9 +6,23 @@
 		<div v-else class="the-trips">
 			<div class="trip">
 				<div class="filters">
-					<div class="filter-title"></div>
+					<div class="filter filter-journey">
+						Trayecto
+						<v-select
+							:options="journeys" 
+							:reduce="(journey) => journey.id"
+							v-model="journey"
+							>
+							<template #option="{ origin, destination }">
+								{{ origin }}-{{ destination }}
+							</template>
+							<template #selected-option="{ origin, destination }">
+								{{ origin }}-{{ destination }}
+							</template>
+						</v-select>
+					</div>
 					<div class="filter filter-capacity">
-						Filtrar por Capacidad
+						Capacidad
           	<v-select
           	  :options="options"
 							v-model="capacity"
@@ -92,17 +106,29 @@ export default {
 	},
 	watch: {
 		capacity: async function(val) {
-			if (val !== null) {
-				await this.getTrips()
-				this.trips = this.trips.filter(obj => {
-					return obj.capacity >= val
-				})
-			} else {
-				this.getTrips()
+			if (val == null) {
+				this.capacity = ''
 			}
+			if (this.journey == null) {
+				this.capacity = ''
+			}
+			this.trips = await this.$http.$get('trip?journey=' + this.journey + '&capacity=' + this.capacity)
+
+		},
+		journey: async function(val) {
+			if (val == null) {
+				this.journey = ''
+			}
+			if (this.capacity == null) {
+				this.capacity = ''
+			}
+			this.trips = await this.$http.$get('trip?journey=' + this.journey + '&capacity=' + this.capacity)
 		}
 	},
 	methods: {
+		filterTrips: async function() {
+			;
+		},
 		deleteTrip: async function(id) {
 			try {
 				await this.$http.delete('trip/' + id)
@@ -148,15 +174,18 @@ export default {
 					align-items: center
 					padding-left: 15px
 					padding-right: 15px
+					.v-select
+						margin-left: 15px
 					.span
 						font-family: 'Montserrat'
 				.filter-capacity
 					.v-select
-						margin-left: 20px
-						margin-right: 15px
+						margin-right: 5px
 					.vs__dropdown-toggle
 						width: 155px
 				.filter-journey
+					@media screen and (max-width: $md)
+						margin-bottom: 10px
 					.v-select
 						width: 250px
 					.vs__dropdown-toggle
