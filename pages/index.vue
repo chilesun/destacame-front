@@ -9,6 +9,7 @@
 					<div class="filter filter-journey">
 						Trayecto
 						<v-select
+							label="id"
 							:options="journeys" 
 							:reduce="(journey) => journey.id"
 							v-model="journey"
@@ -105,27 +106,23 @@ export default {
 		this.bus = await this.$http.$get('bus');
 	},
 	watch: {
-		capacity: async function(val) {
-			if (this.capacity == null) {
-				this.capacity = ''
-			}
-			if (this.journey == null) {
-				this.capacity = ''
-			}
-			this.trips = await this.$http.$get('trip?journey=' + this.journey + '&capacity=' + this.capacity)
-
+		capacity: function() {
+			this.filterTrips()
 		},
-		journey: async function(val) {
-			if (this.journey == null) {
-				this.journey = ''
-			}
-			if (this.capacity == null) {
-				this.capacity = ''
-			}
-			this.trips = await this.$http.$get('trip?journey=' + this.journey + '&capacity=' + this.capacity)
+		journey: function() {
+			this.filterTrips()
 		}
 	},
 	methods: {
+		filterTrips: async function(){
+			if (this.capacity == null) {
+				this.capacity = ''
+			}
+			if (this.journey == null) {
+				this.journey = ''
+			}
+			this.trips = await this.$http.$get('trip?journey=' + this.journey + '&capacity=' + this.capacity)
+		},
 		deleteTrip: async function(id) {
 			try {
 				await this.$http.delete('trip/' + id)
