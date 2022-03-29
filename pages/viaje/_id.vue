@@ -54,10 +54,14 @@ export default {
 	},
   methods: {
     putTrip: async function() {
-      let date = new Date(this.trip.start_time)
-      this.trip.start_time = date.toISOString()
-      await this.$http.put('trip/' + this.trip.id + '/', this.trip )
-			this.$router.push('/')
+      try {
+        let date = new Date(this.trip.start_time)
+        this.trip.start_time = date.toISOString()
+        await this.$http.put('trip/' + this.trip.id + '/', this.trip )
+        this.$router.push('/')
+      } catch (err) {
+        console.log(err.response.data)
+      } 
     }
   }  
 }

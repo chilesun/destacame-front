@@ -33,48 +33,52 @@
 				</div>
 				<div class="table-container">
 					<table>
-						<tr>
-							<th>Origen</th>
-							<th>Destino</th>
-							<th>Salida</th>
-							<th>Llegada</th>
-							<th>Bus</th>
-							<th>Chofer</th>
-							<th>Capacidad V.</th>
-							<th>Opciones</th>
-						</tr>
-						<tr v-for="trip in trips" :key="trip.id">
-							<td class="column origin">
-								{{ $getData(journeys, trip.journey, "origin") }}
-							</td>
-							<td class="column destiny">
-								{{ $getData(journeys, trip.journey, "destination") }}
-							</td>
-							<td class="column departure">
-								{{ $formatDate(trip.start_time) }}
-							</td>
-							<td class="column arrival">
-								{{ $formatDate(trip.end_time) }}
-							</td>
-							<td class="column bus">
-								{{ $getData(bus, trip.bus, "number_plate") }}
-							</td>
-							<td class="column driver">
-								{{ $getData(drivers, ($getData(bus, trip.bus, "driver")), "name") }} {{ $getData(drivers, ($getData(bus, trip.bus, "driver")), "last_name") }}
-							</td>
-							<td class="column capacity">
-								{{ trip.capacity }}%
-							</td>
-							<td class="column options">
-								<NuxtLink :to="'/asientos/' + trip.id ">
-									<img src="~/assets/images/passenger.png" alt="">
-								</NuxtLink>
-								<NuxtLink :to="'/viaje/' + trip.id ">
-									<img src="~/assets/images/edit.png" alt="">
-								</NuxtLink>
-								<img @click="deleteTrip(trip.id)" src="~/assets/images/delete.png" alt="">
-							</td>
-						</tr>
+						<thead>
+							<tr>
+								<th>Origen</th>
+								<th>Destino</th>
+								<th>Salida</th>
+								<th>Llegada</th>
+								<th>Bus</th>
+								<th>Chofer</th>
+								<th>Capacidad V.</th>
+								<th>Opciones</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="trip in trips" :key="trip.id">
+								<td class="column origin">
+									{{ $getData(journeys, trip.journey, "origin") }}
+								</td>
+								<td class="column destiny">
+									{{ $getData(journeys, trip.journey, "destination") }}
+								</td>
+								<td class="column departure">
+									{{ $formatDate(trip.start_time) }}
+								</td>
+								<td class="column arrival">
+									{{ $formatDate(trip.end_time) }}
+								</td>
+								<td class="column bus">
+									{{ $getData(bus, trip.bus, "number_plate") }}
+								</td>
+								<td class="column driver">
+									{{ $getData(drivers, ($getData(bus, trip.bus, "driver")), "name") }} {{ $getData(drivers, ($getData(bus, trip.bus, "driver")), "last_name") }}
+								</td>
+								<td class="column capacity">
+									{{ trip.capacity }}%
+								</td>
+								<td class="column options">
+									<NuxtLink :to="'/asientos/' + trip.id ">
+										<img src="~/assets/images/passenger.png" alt="">
+									</NuxtLink>
+									<NuxtLink :to="'/viaje/' + trip.id ">
+										<img src="~/assets/images/edit.png" alt="">
+									</NuxtLink>
+									<img @click="deleteTrip(trip.id)" src="~/assets/images/delete.png" alt="">
+								</td>
+							</tr>
+						</tbody>
 					</table>
 				</div>
 			</div>

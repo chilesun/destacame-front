@@ -39,31 +39,35 @@
 				</div>
 				<div class="table-container">
 					<table>
-						<tr>
-							<th>Patente</th>
-							<th>Chofer</th>
-							<th>Capacidad</th>
-							<th>Opciones</th>
-						</tr>
-						<tr v-for="bus in buss" :key="bus.id">
-							<td class="column number_plate">
-								{{ bus.number_plate }}
-							</td>
-							<td class="column number_plate">
-									{{ $getData(drivers, bus.driver, "name") }} {{ $getData(drivers, bus.driver, "last_name") }}
-							</td>
-							<td class="column capacity">
-								{{ bus.seats }}
-							</td>
-							<td class="column options">
-								<img @click="updateBus(bus)" src="~/assets/images/edit.png" alt="" />
-								<img
-									@click="deleteBus(bus.id)"
-									src="~/assets/images/delete.png"
-									alt=""
-								/>
-							</td>
-						</tr>
+						<thead>
+							<tr>
+								<th>Patente</th>
+								<th>Chofer</th>
+								<th>Capacidad</th>
+								<th>Opciones</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="bus in buss" :key="bus.id">
+								<td class="column number_plate">
+									{{ bus.number_plate }}
+								</td>
+								<td class="column number_plate">
+										{{ $getData(drivers, bus.driver, "name") }} {{ $getData(drivers, bus.driver, "last_name") }}
+								</td>
+								<td class="column capacity">
+									{{ bus.seats }}
+								</td>
+								<td class="column options">
+									<img @click="updateBus(bus)" src="~/assets/images/edit.png" alt="" />
+									<img
+										@click="deleteBus(bus.id)"
+										src="~/assets/images/delete.png"
+										alt=""
+									/>
+								</td>
+							</tr>
+						</tbody>
 					</table>
 				</div>
 			</div>
@@ -139,30 +143,3 @@ export default {
 	},
 };
 </script>
-
-<style lang="sass">
-.bus
-	.inner
-		display: flex
-		width: 100%
-		flex-wrap: wrap
-		.table-container
-			width: 70%
-			align-self: flex-start
-		.form-container
-			width: 30%
-			display: flex
-			justify-content: center
-			form
-				max-width: 400px
-		@media screen and (max-width: $lg)
-			.form-container
-				margin: 0 auto 40px
-				width: 100%
-			.table-container
-				width: 100%
-				overflow-x: auto
-				table
-					width: 700px
-
-</style>

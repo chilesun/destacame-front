@@ -102,6 +102,30 @@ p
     .section
       width: 100%
 
+  .inner
+    display: flex
+    width: 100%
+    flex-wrap: wrap
+    .table-container
+      width: 70%
+      align-self: flex-start
+    .form-container
+      width: 30%
+      display: flex
+      justify-content: center
+      form
+        max-width: 400px
+    @media screen and (max-width: $lg)
+      .form-container
+        margin: 0 auto 40px
+        width: 100%
+      .table-container
+        width: 100%
+        overflow-x: auto
+        table
+          width: 700px
+          margin: 0 auto
+
   table
     width: 100%
     tr

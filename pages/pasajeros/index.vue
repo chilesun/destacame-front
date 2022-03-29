@@ -32,31 +32,35 @@
 				</div>
 				<div class="table-container">
 					<table>
+						<thead>
 						<tr>
-							<th>Nombre</th>
-							<th>Apellido</th>
-							<th>RUN</th>
-							<th>Opciones</th>
-						</tr>
-						<tr v-for="passenger in passengers" :key="passenger.id">
-							<td class="column name">
-								{{ passenger.name }}
-							</td>
-							<td class="column last_name">
-								{{ passenger.last_name }}
-							</td>
-							<td class="column run">
-								{{ $formatRun(passenger.run) + "-" + passenger.check_digit }}
-							</td>
-							<td class="column options">
-								<img @click="updatePassenger(passenger)" src="~/assets/images/edit.png" alt="" />
-								<img
-									@click="deletePassenger(passenger.id)"
-									src="~/assets/images/delete.png"
-									alt=""
-								/>
-							</td>
-						</tr>
+								<th>Nombre</th>
+								<th>Apellido</th>
+								<th>RUN</th>
+								<th>Opciones</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="passenger in passengers" :key="passenger.id">
+								<td class="column name">
+									{{ passenger.name }}
+								</td>
+								<td class="column last_name">
+									{{ passenger.last_name }}
+								</td>
+								<td class="column run">
+									{{ $formatRun(passenger.run) + "-" + passenger.check_digit }}
+								</td>
+								<td class="column options">
+									<img @click="updatePassenger(passenger)" src="~/assets/images/edit.png" alt="" />
+									<img
+										@click="deletePassenger(passenger.id)"
+										src="~/assets/images/delete.png"
+										alt=""
+									/>
+								</td>
+							</tr>
+						</tbody>
 					</table>
 				</div>
 			</div>
@@ -128,30 +132,3 @@ export default {
 	},
 };
 </script>
-
-<style lang="sass">
-.passengers
-	.inner
-		display: flex
-		width: 100%
-		flex-wrap: wrap
-		.table-container
-			width: 70%
-			align-self: flex-start
-		.form-container
-			width: 30%
-			display: flex
-			justify-content: center
-			form
-				max-width: 400px
-		@media screen and (max-width: $lg)
-			.form-container
-				margin: 0 auto 40px
-				width: 100%
-			.table-container
-				width: 100%
-				overflow-x: auto
-				table
-					width: 700px
-
-</style>

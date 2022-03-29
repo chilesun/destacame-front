@@ -10,7 +10,6 @@
 				<div class="form-container">
 					<form action="">
 						<h3>Nuevo Trayecto</h3>
-
 						<div class="field run">
 							<label class="label" for="name">Origen</label>
 							<v-select
@@ -44,31 +43,35 @@
 				</div>
 				<div class="table-container">
 					<table>
-						<tr>
-							<th>Origen</th>
-							<th>Destino</th>
-							<th>Duración</th>
-							<th>Opciones</th>
-						</tr>
-						<tr v-for="journey in journeys" :key="journey.id">
-							<td class="column origin">
-								{{ journey.origin }}
-							</td>
-							<td class="column destination">
-								{{ journey.destination }}
-							</td>
-							<td class="column duration">
-								{{ journey.duration }}
-							</td>
-							<td class="column options">
-								<img @click="updateJourney(journey)" src="~/assets/images/edit.png" alt="" />
-								<img
-									@click="deleteJourney(journey.id)"
-									src="~/assets/images/delete.png"
-									alt=""
-								/>
-							</td>
-						</tr>
+						<thead>
+							<tr>
+								<th>Origen</th>
+								<th>Destino</th>
+								<th>Duración</th>
+								<th>Opciones</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="journey in journeys" :key="journey.id">
+								<td class="column origin">
+									{{ journey.origin }}
+								</td>
+								<td class="column destination">
+									{{ journey.destination }}
+								</td>
+								<td class="column duration">
+									{{ journey.duration }}
+								</td>
+								<td class="column options">
+									<img @click="updateJourney(journey)" src="~/assets/images/edit.png" alt="" />
+									<img
+										@click="deleteJourney(journey.id)"
+										src="~/assets/images/delete.png"
+										alt=""
+									/>
+								</td>
+							</tr>
+						</tbody>
 					</table>
 				</div>
 			</div>
@@ -150,31 +153,3 @@ export default {
 	},
 };
 </script>
-
-<style lang="sass">
-.journeys
-	.inner
-		display: flex
-		width: 100%
-		flex-wrap: wrap
-		.table-container
-			width: 70%
-			align-self: flex-start
-		.form-container
-			width: 30%
-			display: flex
-			justify-content: center
-			form
-				max-width: 400px
-		@media screen and (max-width: $lg)
-			.form-container
-				margin: 0 auto 40px
-				width: 100%
-			.table-container
-				width: 100%
-				overflow-x: auto
-				table
-					margin: 0 auto
-					width: 700px
-
-</style>
